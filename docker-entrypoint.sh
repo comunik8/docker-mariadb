@@ -100,7 +100,7 @@ if [ "$1" = 'mysqld' ]; then
 		
 		echo 'FLUSH PRIVILEGES ;' >> "$tempSqlFile"
 		
-		set -- "$@" --init-file="$tempSqlFile"
+		set --init-file="$tempSqlFile" -- "$@"
 	fi
 	
 	chown -R mysql:mysql "$DATADIR"
@@ -109,21 +109,22 @@ if [ "$1" = 'mysqld' ]; then
 	if [ -n "$GALERA" ]; then
 		# append galera specific run options
 
-		set -- "$@" \
+		set \
 		--wsrep_cluster_name="$CLUSTER_NAME" \
 		--wsrep_cluster_address="$CLUSTER_ADDRESS" \
 		--wsrep_node_name="$NODE_NAME" \
 		--wsrep_sst_auth="replication:$REPLICATION_PASSWORD" \
-		--wsrep_sst_receive_address=$IP
+		--wsrep_sst_receive_address=$IP \
+		-- "$@"
 	fi
 
 	if [ -n "$LOG_BIN" ]; then
-                set -- "$@" --log-bin="$LOG_BIN"
+                set --log-bin="$LOG_BIN" -- "$@"
 		chown mysql:mysql $(dirname $LOG_BIN)
 	fi
 
         if [ -n "$LOG_BIN_INDEX" ]; then
-                set -- "$@" --log-bin-index="$LOG_BIN_INDEX"
+                set --log-bin-index="$LOG_BIN_INDEX" -- "$@"
 		chown mysql:mysql $(dirname $LOG_BIN)
         fi
 
