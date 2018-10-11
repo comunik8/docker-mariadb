@@ -29,7 +29,7 @@ ENV		MARIADB_MAJOR 10.3
 RUN		apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xF1656F24C74CD1D8 && \
 		echo "deb http://ftp.osuosl.org/pub/mariadb/repo/${MARIADB_MAJOR}/debian stretch main" >>/etc/apt/sources.list && \	
 		apt-get update -qq && \
-		apt-get -y install mariadb-server-${MARIADB_MAJOR} mariadb-client-${MARIADB_MAJOR} && \
+		apt-get -y install mariadb-backup mariadb-server-${MARIADB_MAJOR} mariadb-client-${MARIADB_MAJOR} && \
 		apt-get clean autoclean && \
 		apt-get autoremove --yes && \ 
 		rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
