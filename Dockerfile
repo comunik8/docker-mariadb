@@ -24,13 +24,12 @@ RUN		apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8507EFA5 && \
 		rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 ENV		MARIADB_MAJOR 10.3
-ENV		MARIADB_VERSION 10.3.10
 
 # install mariadb
 RUN		apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xF1656F24C74CD1D8 && \
 		echo "deb http://ftp.osuosl.org/pub/mariadb/repo/${MARIADB_MAJOR}/debian stretch main" >>/etc/apt/sources.list && \	
 		apt-get update -qq && \
-		apt-get -y install mariadb-server-${MARIADB_MAJOR}="${MARIADB_VERSION}+maria~stretch" mariadb-client-${MARIADB_MAJOR}="${MARIADB_VERSION}+maria~stretch" && \
+		apt-get -y install mariadb-server-${MARIADB_MAJOR} mariadb-client-${MARIADB_MAJOR} && \
 		apt-get clean autoclean && \
 		apt-get autoremove --yes && \ 
 		rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
@@ -38,11 +37,9 @@ RUN		apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xF1656F24C74CD1D8
 		mkdir /var/lib/mysql && \
 		sed -ri 's/^(bind-address|skip-networking|log)/;\1/' /etc/mysql/my.cnf
 
-ENV		GALERA_VERSION 25.3.24
-
 # install galera
 RUN		apt-get update -qq && \
-		apt-get -y install galera-arbitrator-3="${GALERA_VERSION}-stretch" galera-3="${GALERA_VERSION}-stretch" && \
+		apt-get -y install galera-arbitrator-3 galera-3 && \
 		apt-get clean autoclean && \
 		apt-get autoremove --yes && \ 
 		rm -rf /var/lib/{apt,dpkg,cache,log}/
